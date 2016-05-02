@@ -1,0 +1,2 @@
+# basicscriptsGG
+basicscripts
