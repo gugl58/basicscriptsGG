@@ -29,6 +29,7 @@ RuntimeC <- function() {
 #' @export
 #'
 #' @examples
+#' library(basicscriptsGG)
 #' rt_object <- RuntimeC()
 #' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
 #' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
@@ -59,6 +60,10 @@ add.timepoint.RuntimeC <- function(object, name) {
 #' @export
 #'
 #' @examples
+#' library(basicscriptsGG)
+#' rt_object <- RuntimeC()
+#' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
+#' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
 #' rt_object <- absTOsingleTimes(rt_object)	# subtract the first for (starting point)
 
 absTOsingleTimes <- function(object, forceFinal){ UseMethod("absTOsingleTimes")}
