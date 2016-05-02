@@ -4,10 +4,10 @@
 #' time-points are stored
 #'
 #' @return RuntimeC-object
-#' @export
 #'
 #' @examples
 #' rt_object <- RuntimeC()
+#' @export
 RuntimeC <- function() {
 	value  <- list(mat=matrix(nrow=0, ncol=5))
 	colnames(value$mat) <- c("TotalUserCPUtime", "SystemCPUtime",
@@ -17,16 +17,12 @@ RuntimeC <- function() {
 	value
 }
 
-
 #' Adding timepoints
 #'
 #' Adds a named timepoint to object
 #'
 #' @param object RuntimeC-class object
 #' @param name   Name of time point
-#'
-#' @return object plus additional named timepoint
-#' @export
 #'
 #' @examples
 #' library(basicscriptsGG)
@@ -38,12 +34,22 @@ RuntimeC <- function() {
 #' Sys.sleep(0.1)
 #' rt_object <- add.timepoint(rt_object, "fun3")			# add new timepoint NOW
 #' Sys.sleep(.2)
-add.timepoint <- function(object, name){ UseMethod("add.timepoint")}
+#'
+#' @rdname add.timepoint
+#' @export add.timepoint
+add.timepoint <- function(object, name){ UseMethod("add.timepoint", object)}
+
+#' @rdname add.timepoint
+#' @method add.timepoint RuntimeC
+#' @S3method add.timepoint RuntimeC
 add.timepoint.RuntimeC <- function(object, name) {
 	object$mat <- rbind(object$mat, proc.time())
 	rownames(object$mat)[dim(object$mat)[1]] <- name
 	return(object)
 }
+
+
+
 
 #' Finalize the RuntimeC-Object
 #'
@@ -57,7 +63,6 @@ add.timepoint.RuntimeC <- function(object, name) {
 #' @param forceFinal Forces adding the sumary and calculating the relative times
 #'
 #' @return object with 2 summary rows and all rows in relative times.
-#' @export
 #'
 #' @examples
 #' library(basicscriptsGG)
@@ -65,8 +70,14 @@ add.timepoint.RuntimeC <- function(object, name) {
 #' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
 #' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
 #' rt_object <- absTOsingleTimes(rt_object)	# subtract the first for (starting point)
+#' @rdname absTOsingleTimes
+#' @export absTOsingleTimes
+absTOsingleTimes <- function(object, forceFinal){ UseMethod("absTOsingleTimes", object)}
 
-absTOsingleTimes <- function(object, forceFinal){ UseMethod("absTOsingleTimes")}
+
+#' @rdname absTOsingleTimes
+#' @method absTOsingleTimes RuntimeC
+#' @S3method absTOsingleTimes RuntimeC
 absTOsingleTimes.RuntimeC <- function(object, forceFinal=FALSE) {
 	if(dim(object$mat)[1] <= 1)
 	{
@@ -98,8 +109,36 @@ absTOsingleTimes.RuntimeC <- function(object, forceFinal=FALSE) {
 }
 
 
+
+
+#' Write function
+#'
+#' Just the normal write function made generic and RuntimeC-support added
+#'
+#'
+#' @param object     See ?base::write
+#' @examples
+#' # See ?base::write. For RuntimeC:
+#' library(basicscriptsGG)
+#' rt_object <- RuntimeC()
+#' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
+#' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
+#' rt_object <- absTOsingleTimes(rt_object)	# subtract the first for (starting point)
+#' write(rt_object, "test.txt")
+#'
+#' @rdname write
+#' @export write
 write <- function(x, ...) UseMethod("write")
+
+#' @rdname write
+#' @method write default
+#' @S3method write default
+
 write.default <- base::write
+
+#' @rdname write
+#' @method write RuntimeC
+#' @S3method write RuntimeC
 write.RuntimeC <- function(obj, file)
 {
 	write.table(obj$mat, file=file, sep = "\t")
