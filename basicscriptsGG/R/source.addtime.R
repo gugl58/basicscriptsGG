@@ -20,7 +20,7 @@
 #' source.addtime("ANY.Scriptpath", A_RUNTIME)
 
 source.addtime <- function(scriptpath, runtimecobject){
-	A_scriptname <- basename(scriptpath)
+	assign("A_scriptname", basename(scriptpath), envir=globalenv())
 	runtimecobject <- add.timepoint(runtimecobject, name = A_scriptname)
 	source(scriptpath)
 	return(runtimecobject)
