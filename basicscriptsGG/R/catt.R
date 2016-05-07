@@ -33,5 +33,3 @@ define.catt <- function(ntab = NULL, nspace=NULL){
 	}
 	return(catt)
 }
-
-catt <- define.catt()
