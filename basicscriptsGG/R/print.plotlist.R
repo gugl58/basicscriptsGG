@@ -2,7 +2,7 @@
 #'
 #' @param plotlist      List of plots
 #'
-#' @return loads the "package"
+#' @return prints multiple plots without printing every plot number
 #' @export
 #'
 #' @examples
