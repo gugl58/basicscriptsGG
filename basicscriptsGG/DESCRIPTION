@@ -1,8 +1,8 @@
 Package: basicscriptsGG
 Type: Package
 Title: Includes the basicscripts for GG's analysis
-Version: 0.2.1
-Date: 2016-05-02
+Version: 0.2.2
+Date: 2016-08-17
 Author: Gunther Glehr
 Maintainer: <gunther.glehr@stud.ur.de>
 Description: This package includes R-Scripts named "basicScripts" because they
@@ -14,6 +14,7 @@ Description: This package includes R-Scripts named "basicScripts" because they
     links.genecards
     multiplot (usefull only with library(ggplot2))
     sample.percentage
+    print.plotlist
 License: What license is it under?
 Depends: R (>= 3.1.0), methods
 Suggests: ggplot2, grid
