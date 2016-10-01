@@ -2,7 +2,7 @@
 #' Make a latex table to use with the booktaps package from any array
 #'
 #' @param array0		An array
-#' @param format.string 	How should the values of the array be formatted? (Not the row/colnames)
+#' @param value.formatstring 	How should the values of the array be formatted? (Not the row/colnames)
 #'
 #' @return
 #' @export
@@ -14,16 +14,16 @@
 #' make.textable(arr)
 #' make.textable(arr, title = "abc")
 #' make.textable(arr, title = "abc", label = "testlabel")
-#' make.textable(arr, format.string = "%5.3f")
+#' make.textable(arr, value.formatstring = "%5.3f")
 #'
 #' # to save into a file:
 #' sink("testfile.txt")
-#' make.textable(arr, format.string = "%5.3f")
+#' make.textable(arr, value.formatstring = "%5.3f")
 #' sink()
 
 
 make.textable <- function(array0
-						 , format.string=NA
+						 , value.formatstring=NA
 						 , title=NA
 						 , label=NA){
 	nrows <- dim(array0)[1]
@@ -45,9 +45,9 @@ make.textable <- function(array0
 	cat(c("", array0.CN), sep=" & ")
 	cat("\\\\ \\midrule\n")
 	for(i in 1:nrows){
-		if(is.character(format.string)){
+		if(is.character(value.formatstring)){
 			cat(array0.RN[i]
-				, sprintf(format.string, array0[i, ])
+				, sprintf(value.formatstring, array0[i, ])
 				, sep=" & \t")
 		}else{
 			cat(array0.RN[i], array0[i, ], sep=" & \t")
