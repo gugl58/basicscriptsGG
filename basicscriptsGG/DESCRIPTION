@@ -1,7 +1,7 @@
 Package: basicscriptsGG
 Type: Package
 Title: Includes the basicscripts for GG's analysis
-Version: 0.2.4
+Version: 0.3
 Date: 2016-10-01
 Author: Gunther Glehr
 Maintainer: <gunther.glehr@stud.ur.de>
@@ -16,6 +16,7 @@ Description: This package includes R-Scripts named "basicScripts" because they
     sample.percentage
     print.plotlist
     make.textable
+    list.make.textable
 License: What license is it under?
 Depends: R (>= 3.1.0), methods
 Suggests: ggplot2, grid
