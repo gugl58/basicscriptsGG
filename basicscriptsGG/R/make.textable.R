@@ -2,7 +2,7 @@
 #' Make a latex table to use with the booktaps package from any array
 #'
 #' @param array0		An array
-#' @param value.formatstring 	How should the values of the array be formatted? (Not the row/colnames)
+#' @param value.formatstring 	How should a single value of the array be formatted? (Not the row/colnames)
 #'
 #' @return
 #' @export
@@ -46,8 +46,13 @@ make.textable <- function(array0
 	cat("\\\\ \\midrule\n")
 	for(i in 1:nrows){
 		if(is.character(value.formatstring)){
+			values <- sprintf(value.formatstring, array0[i, ])
+			if(grepl(pattern = "%[0-9]*\\.?[0-9]*[eE].*\\$", value.formatstring)){ # I assume that value.formatstring is for a single value
+				values <- sub("(-?[0-9]+\\.?[0-9]*[eE])([+-][0-9]*)", "\\1^{\\2}", values)
+			}
+
 			cat(array0.RN[i]
-				, sprintf(value.formatstring, array0[i, ])
+				, values
 				, sep=" & \t")
 		}else{
 			cat(array0.RN[i], array0[i, ], sep=" & \t")

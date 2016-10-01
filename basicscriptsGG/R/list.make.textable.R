@@ -31,7 +31,12 @@ list.make.textable <- function(arrlist
 						  ,title = name)	# then we finally got the array
 		}
 		for(listX in names(maybeList)){
-			recursive.iflist(maybeList[[listX]], name = listX)
+			if(is.na(name)){
+				name0 <- listX
+			}else{
+				name0 <- paste0(name, ":", listX)
+			}
+			recursive.iflist(maybeList[[listX]], name = name0)
 		}
 	}
 	recursive.iflist(arrlist)
