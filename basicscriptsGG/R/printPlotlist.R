@@ -14,8 +14,8 @@
 #' p1 <- ggplot(mat, aes(x=V1, y=V2, col=V3)) + geom_point()
 #' plist <- list(p0,p1)
 #'
-#' print.plotlist(plist)
-print.plotlist <- function(plotlist){
+#' printPlotlist(plist)
+printPlotlist <- function(plotlist){
 	for(plotN in 1:length(plotlist)){
 		print(plotlist[[plotN]])
 	}
