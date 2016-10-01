@@ -27,7 +27,7 @@ make.textable <- function(array0
 						 , title=NA
 						 , label=NA){
 	nrows <- dim(array0)[1]
-	ncols <- dim(array0)[2]
+	ncols <- dim(array0)[2]+1
 	array0.CN <- colnames(array0)
 	array0.RN <- rownames(array0)
 	cat("\\begin{table}\n\\centering\n")
