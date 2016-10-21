@@ -1,7 +1,7 @@
 Package: basicscriptsGG
 Type: Package
 Title: Includes the basicscripts for GG's analysis
-Version: 0.3.6
+Version: 0.3.7
 Date: 2016-10-01
 Author: Gunther Glehr
 Maintainer: <gunther.glehr@stud.ur.de>
@@ -17,6 +17,7 @@ Description: This package includes R-Scripts named "basicScripts" because they
     printPlotlist
     make.textable
     list.make.textable
+    source.function
 License: What license is it under?
 Depends: R (>= 3.1.0), methods
 Suggests: ggplot2, grid
