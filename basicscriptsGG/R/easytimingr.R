@@ -141,5 +141,7 @@ write.default <- base::write
 #' @S3method write RuntimeC
 write.RuntimeC <- function(obj, file)
 {
-	write.table(obj$mat, file=file, sep = "\t")
+	sink(file = file)
+	print(obj$mat, digits = 2)
+	sink()
 }

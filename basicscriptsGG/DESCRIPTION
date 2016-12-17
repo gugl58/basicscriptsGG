@@ -1,10 +1,10 @@
 Package: basicscriptsGG
 Type: Package
 Title: Includes the basicscripts for GG's analysis
-Version: 0.3.7
-Date: 2016-10-01
+Version: 0.3.8
+Date: 2016-12-17
 Author: Gunther Glehr
-Maintainer: <gunther.glehr@stud.ur.de>
+Maintainer: <gunther.glehr@stud.uni-regensburg.de>
 Description: This package includes R-Scripts named "basicScripts" because they
     will be used in more than one analysis. This Package can be extended if some
     scripts seem usefull for multiple analysis. The package currently includes
