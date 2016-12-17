@@ -142,6 +142,6 @@ write.default <- base::write
 write.RuntimeC <- function(obj, file)
 {
 	sink(file = file)
-	print(obj$mat, digits = 2)
+	print(round(obj$mat, digits = 2))
 	sink()
 }
