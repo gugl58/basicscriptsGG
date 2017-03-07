@@ -1,8 +1,14 @@
 #' Booktabs table from list of matrices
 #' Make a latex table to use with the booktaps package from a list of arrays
 #'
-#' @param arraylist			An (nested) list of arrays
 #' @param value.formatstring 	How should the values of the array be formatted? (Not the row/colnames)
+#' @param arrlist
+#' list of arrays
+#' @param cutfunction
+#' function which decides, based on all values of the matrix if a row should be colored
+#' @param rowcol
+#' the row color
+#'
 #'
 #' @return
 #' @export
@@ -23,12 +29,16 @@
 
 
 list.make.textable <- function(arrlist
-							   ,value.formatstring=NA){
+							   ,value.formatstring=NA
+							   , cutfunction=function(x){return(FALSE)}
+							   , rowcol="red"){
 	recursive.iflist <- function(maybeList, name=NA){
 		if(! is.list(maybeList)){
 			make.textable(array0 = maybeList
 						  , value.formatstring = value.formatstring
-						  ,title = name)	# then we finally got the array
+						  ,title = name
+						  , cutfunction=cutfunction
+						  , rowcol=rowcol)	# then we finally got the array
 		}
 		for(listX in names(maybeList)){
 			if(is.na(name)){
