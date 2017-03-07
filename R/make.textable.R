@@ -31,9 +31,7 @@ make.textable <- function(array0
 						 , cutfunction=function(x){return(FALSE)}
 						 , rowcol="red"){
 	# first: create a vector which rows should be colored
-	tmp.arr <- array0
-	tmp.arr[] <- vapply(array0, cutfunction, numeric(1))	# this applies "cutfunction" on each element of array0
-	suppressWarnings(colored.row <- apply(tmp.arr, 1, any))
+	colored.row <- apply(array0, 1, cutfunction)
 
 	nrows <- dim(array0)[1]
 	ncols <- dim(array0)[2]+1
@@ -61,7 +59,7 @@ make.textable <- function(array0
 	cat("\\\\ \\midrule\n")
 	for(i in 1:nrows){
 		if(colored.row[i]){
-			cat("\\rowcol")
+			cat("\\rowcol ")
 		}
 		if(is.character(value.formatstring)){
 			values <- sprintf(value.formatstring, array0[i, ])
