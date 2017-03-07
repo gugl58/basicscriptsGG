@@ -29,7 +29,7 @@ make.textable <- function(array0
 						 , title=NA
 						 , label=NA
 						 , cutfunction=function(x){return(FALSE)}
-						 , rowcol="red"){
+						 , rowcol="red!10"){
 	# first: create a vector which rows should be colored
 	colored.row <- apply(array0, 1, cutfunction)
 
@@ -40,6 +40,7 @@ make.textable <- function(array0
 
 	if(any(colored.row)){
 		cat("%\\usepackage{booktabs}\n")
+		cat("%\\usepackage{xcolor}\n")
 		cat("%\\usepackage{colortbl} % http://ctan.org/pkg/colortbl\n")
 		cat("%\\newcommand{\\rowcol}{\\rowcolor{",rowcol,"}} %\n\n", sep = "")
 	}
