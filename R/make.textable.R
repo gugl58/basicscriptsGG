@@ -16,6 +16,7 @@
 #' make.textable(arr, title = "abc", label = "testlabel")
 #' make.textable(arr, value.formatstring = "%5.3e")
 #' make.textable(arr, value.formatstring = "$%5.3e$")
+#' make.textable(arr, cutfunction=function(x){x>1})
 #'
 #' # to save into a file:
 #' sink("testfile.txt")
@@ -26,11 +27,24 @@
 make.textable <- function(array0
 						 , value.formatstring=NA
 						 , title=NA
-						 , label=NA){
+						 , label=NA
+						 , cutfunction=function(x){return(FALSE)}
+						 , rowcol="red"){
+	# first: create a vector which rows should be colored
+	tmp.arr <- array0
+	tmp.arr[] <- vapply(array0, cutfunction, numeric(1))	# this applies "cutfunction" on each element of array0
+	suppressWarnings(colored.row <- apply(tmp.arr, 1, any))
+
 	nrows <- dim(array0)[1]
 	ncols <- dim(array0)[2]+1
 	array0.CN <- colnames(array0)
 	array0.RN <- rownames(array0)
+
+	if(any(colored.row)){
+		cat("%\\usepackage{booktabs}\n")
+		cat("%\\usepackage{colortbl} % http://ctan.org/pkg/colortbl\n")
+		cat("%\\newcommand{\\rowcol}{\\rowcolor{",rowcol,"}} %\n\n", sep = "")
+	}
 	cat("\\begin{table}\n\\centering\n")
 	if(!is.na(title)){
 		cat("\\caption{", title, "}")
@@ -46,6 +60,9 @@ make.textable <- function(array0
 	cat(c("", array0.CN), sep=" & ")
 	cat("\\\\ \\midrule\n")
 	for(i in 1:nrows){
+		if(colored.row[i]){
+			cat("\\rowcol")
+		}
 		if(is.character(value.formatstring)){
 			values <- sprintf(value.formatstring, array0[i, ])
 			if(grepl(pattern = "%[0-9]*\\.?[0-9]*[eE].*\\$", value.formatstring)){ # I assume that value.formatstring is for a single value
@@ -61,6 +78,6 @@ make.textable <- function(array0
 		cat("\\\\\n")
 	}
 	cat("\\bottomrule\n")
-	cat("\\end{tabular}")
+	cat("\\end{tabular}\n")
 	cat("\\end{table}\n\n")
 }
