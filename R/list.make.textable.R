@@ -31,7 +31,7 @@
 list.make.textable <- function(arrlist
 							   ,value.formatstring=NA
 							   , cutfunction=function(x){return(FALSE)}
-							   , rowcol="red"){
+							   , rowcol="red!10"){
 	recursive.iflist <- function(maybeList, name=NA){
 		if(! is.list(maybeList)){
 			make.textable(array0 = maybeList
