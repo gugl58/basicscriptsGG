@@ -76,9 +76,6 @@ make.textable <- function(array0
 		}
 		if(is.character(value.formatstring)){
 			values <- sprintf(value.formatstring, array0[i, ])
-			if(grepl(pattern = "%[0-9]*\\.?[0-9]*[eE].*\\$", value.formatstring)){ # I assume that value.formatstring is for a single value
-				values <- sub("(-?[0-9]+\\.?[0-9]*)[eE]([+-][0-9]*)", "\\1\\\\cdot 10^{\\2}", values)
-			}
 
 			cat(array0.RN[i]
 				, values
