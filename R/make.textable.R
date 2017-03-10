@@ -17,6 +17,7 @@
 #' make.textable(arr, value.formatstring = "%5.3e")
 #' make.textable(arr, value.formatstring = "$%5.3e$")
 #' make.textable(arr, cutfunction=function(x){x>1})
+#' make.textable(arr, value.formatstring = "$%5.3e$")
 #'
 #' # to save into a file:
 #' sink("testfile.txt")
@@ -29,7 +30,8 @@ make.textable <- function(array0
 						 , title=NA
 						 , label=NA
 						 , cutfunction=function(x){return(FALSE)}
-						 , rowcol="red!10"){
+						 , rowcol="red!10"
+						 ,sisetup=FALSE){
 	# first: create a vector which rows should be colored
 	colored.row <- apply(array0, 1, cutfunction)
 
@@ -38,13 +40,23 @@ make.textable <- function(array0
 	array0.CN <- colnames(array0)
 	array0.RN <- rownames(array0)
 
+	if(sisetup){
+		cat("%% \\usepackage{siunitx} %Paket für Einheiten mitsamt der deutschen Anpassungen\n")
+	}
+
 	if(any(colored.row)){
 		cat("%\\usepackage{booktabs}\n")
 		cat("%\\usepackage{xcolor}\n")
 		cat("%\\usepackage{colortbl} % http://ctan.org/pkg/colortbl\n")
 		cat("%\\newcommand{\\rowcol}{\\rowcolor{",rowcol,"}} %\n\n", sep = "")
 	}
-	cat("\\begin{table}\n\\centering\n")
+	cat("\\begin{table}\n")
+	cat("\\sisetup{round-mode=places\n,round-precision=3\n,scientific-notation=fixed\n,fixed-exponent=0\n}\n")
+	cat("\\centering\n")
+	if(is.na(value.formatstring)){
+		value.formatstring <- "\\num{%12.6e}"
+	}
+
 	if(!is.na(title)){
 		cat("\\caption{", title, "}")
 		if(is.na(label)){

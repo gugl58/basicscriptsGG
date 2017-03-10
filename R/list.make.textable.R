@@ -21,6 +21,8 @@
 #' list.make.textable(arrlist)
 #' list.make.textable(arrlist, value.formatstring = "%5.3f")
 #' list.make.textable(arrlist, value.formatstring = "\\textit{%5.3f}")
+#' list.make.textable(arrlist, value.formatstring = "\\textit{%5.3f}", sisetup=TRUE)
+#' list.make.textable(arrlist, sisetup=TRUE)
 #'
 #' # to save into a file:
 #' sink("testfile.txt")
@@ -31,7 +33,8 @@
 list.make.textable <- function(arrlist
 							   ,value.formatstring=NA
 							   , cutfunction=function(x){return(FALSE)}
-							   , rowcol="red!10"){
+							   , rowcol="red!10"
+							   ,sisetup=FALSE){
 	recursive.iflist <- function(maybeList, name=NA){
 		if(! is.list(maybeList)){
 			make.textable(array0 = maybeList
