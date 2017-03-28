@@ -5,7 +5,9 @@
 \title{Booktabs table from matrix
 Make a latex table to use with the booktaps package from any array}
 \usage{
-make.textable(array0, value.formatstring = NA, title = NA, label = NA)
+make.textable(array0, value.formatstring = NA, title = NA, label = NA,
+  cutfunction = function(x) {     return(FALSE) }, rowcol = "red!10",
+  sisetup = FALSE)
 }
 \arguments{
 \item{array0}{An array}
@@ -24,6 +26,8 @@ make.textable(arr)
 make.textable(arr, title = "abc")
 make.textable(arr, title = "abc", label = "testlabel")
 make.textable(arr, value.formatstring = "\%5.3e")
+make.textable(arr, value.formatstring = "$\%5.3e$")
+make.textable(arr, cutfunction=function(x){x>1})
 make.textable(arr, value.formatstring = "$\%5.3e$")
 
 # to save into a file:

@@ -15,13 +15,14 @@
 #' @examples
 #' library(basicscriptsGG)
 #' A_RUNTIME <- RuntimeC()		# initialize runtime-array
-#' A_RUNTIME <- add.timepoint(A_RUNTIME, name = "Start")
-#'
 #' # source.addtime("ANY.Scriptpath", A_RUNTIME)
 
 source.addtime <- function(scriptpath, runtimecobject){
 	assign("A_scriptname", basename(scriptpath), envir=globalenv())
-	runtimecobject <- add.timepoint(runtimecobject, name = A_scriptname)
+	t1 <- proc.time()
 	source(scriptpath)
+	t2 <- proc.time()
+	runtimecobject <- add.timepoint(runtimecobject, name = A_scriptname
+									, scripttime=t2-t1)
 	return(runtimecobject)
 }

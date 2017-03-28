@@ -23,27 +23,29 @@ RuntimeC <- function() {
 #'
 #' @param object RuntimeC-class object
 #' @param name   Name of time point
+#' @param scripttime
+#' Time for one script, given by "proc.time() - proc.time()"
 #'
 #' @examples
 #' library(basicscriptsGG)
 #' rt_object <- RuntimeC()
-#' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
-#' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
-#' Sys.sleep(1) # placeholder for ultra cool function/script
-#' rt_object <- add.timepoint(rt_object, "fun2")			# add new timepoint NOW
-#' Sys.sleep(0.1)
-#' rt_object <- add.timepoint(rt_object, "fun3")			# add new timepoint NOW
-#' Sys.sleep(.2)
+#' rt_object <- add.timepoint(rt_object, "useless", proc.time()-proc.time())	# add new timepoint (with zero time)
+#' t1 <- proc.time()
+#' Sys.sleep(1)		# someFunction
+#' t2 <- proc.time()
+#' rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
+#' rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
+#' rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
 #'
 #' @rdname add.timepoint
 #' @export add.timepoint
-add.timepoint <- function(object, name){ UseMethod("add.timepoint", object)}
+add.timepoint <- function(object, name, scripttime){ UseMethod("add.timepoint", object)}
 
 #' @rdname add.timepoint
 #' @method add.timepoint RuntimeC
 #' @S3method add.timepoint RuntimeC
-add.timepoint.RuntimeC <- function(object, name) {
-	object$mat <- rbind(object$mat, proc.time())
+add.timepoint.RuntimeC <- function(object, name, scripttime) {
+	object$mat <- rbind(object$mat, scripttime)
 	rownames(object$mat)[dim(object$mat)[1]] <- name
 	return(object)
 }
@@ -53,32 +55,33 @@ add.timepoint.RuntimeC <- function(object, name) {
 
 #' Finalize the RuntimeC-Object
 #'
-#' Adds a summary of all times in RuntimeC and calculates the relative times for
-#' each function (Instead of the absolute time of proc.time())
-#' Should be done only once, multiple times yield in pointless matrix. Therefore,
-#' usually it can be done only once, except you force it by setting forceFinal=TRUE.
+#' Adds a summary of all times in RuntimeC
 #'
 #'
 #' @param object     RuntimeC-object
-#' @param forceFinal Forces adding the sumary and calculating the relative times
+#' @param forceFinal Forces adding the summary and calculating the relative times
 #'
-#' @return object with 2 summary rows and all rows in relative times.
+#' @return
+#' object with 2 summary rows and all rows hold the scripttime of the rownames()
 #'
 #' @examples
 #' library(basicscriptsGG)
 #' rt_object <- RuntimeC()
-#' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
-#' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
-#' rt_object <- absTOsingleTimes(rt_object)	# subtract the first for (starting point)
-#' @rdname absTOsingleTimes
-#' @export absTOsingleTimes
-absTOsingleTimes <- function(object, forceFinal){ UseMethod("absTOsingleTimes", object)}
+#' rt_object <- add.timepoint(rt_object, "useless", proc.time()-proc.time())	# add new timepoint (with zero time)
+#' t1 <- proc.time()
+#' Sys.sleep(1)		# someFunction
+#' t2 <- proc.time()
+#' rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
+#' rt_object <- summarizeRT(rt_object)	# subtract the first for (starting point)
+#' @rdname summarizeRT
+#' @export summarizeRT
+summarizeRT <- function(object, forceFinal){ UseMethod("summarizeRT", object)}
 
 
-#' @rdname absTOsingleTimes
-#' @method absTOsingleTimes RuntimeC
-#' @S3method absTOsingleTimes RuntimeC
-absTOsingleTimes.RuntimeC <- function(object, forceFinal=FALSE) {
+#' @rdname summarizeRT
+#' @method summarizeRT RuntimeC
+#' @S3method summarizeRT RuntimeC
+summarizeRT.RuntimeC <- function(object, forceFinal=FALSE) {
 	if(dim(object$mat)[1] <= 1)
 	{
 		return(object)
@@ -89,16 +92,6 @@ absTOsingleTimes.RuntimeC <- function(object, forceFinal=FALSE) {
 		print("Object already finished")
 		return(object)
 	}
-	object <- add.timepoint(object, "Final")
-	object$mat <- sweep(object$mat, 2, object$mat[1,], "-")# subtract first row from all rows
-	for(row in dim(object$mat)[1]:2){	# with this loop, every process shows its single time
-		# (meaning: no absolute inkremental values for the "realTime")
-		object$mat[row, ] <- object$mat[row, ]-object$mat[row-1,]
-		if(object$mat[row, 2] < 0) object$mat[row, 1:3] <- 0
-	}
-	rn <- rownames(object$mat)
-	object$mat <- object$mat[-1, ] 		# omit 1. element
-	rownames(object$mat) <- rn[- length(rn)] # omit last element
 
 	total.sum <- apply(object$mat, 2, sum)
 	object$mat <- rbind(object$mat, total.sum)
@@ -121,9 +114,12 @@ absTOsingleTimes.RuntimeC <- function(object, forceFinal=FALSE) {
 #' # See ?base::write. For RuntimeC:
 #' library(basicscriptsGG)
 #' rt_object <- RuntimeC()
-#' rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
-#' rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
-#' rt_object <- absTOsingleTimes(rt_object)	# subtract the first for (starting point)
+#' rt_object <- add.timepoint(rt_object, "useless", proc.time()-proc.time())	# add new timepoint (with zero time)
+#' t1 <- proc.time()
+#' Sys.sleep(1)		# someFunction
+#' t2 <- proc.time()
+#' rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
+#' rt_object <- summarizeRT(rt_object)	# subtract the first for (starting point)
 #' write(rt_object, "test.txt")
 #'
 #' @rdname write
@@ -141,7 +137,12 @@ write.default <- base::write
 #' @S3method write RuntimeC
 write.RuntimeC <- function(obj, file)
 {
+	width.save <- options()$width
+	options(width=250)
+
 	sink(file = file)
 	print(round(obj$mat, digits = 2))
 	sink()
+
+	options(width = width.save)
 }

@@ -5,14 +5,16 @@
 \alias{add.timepoint.RuntimeC}
 \title{Adding timepoints}
 \usage{
-add.timepoint(object, name)
+add.timepoint(object, name, scripttime)
 
-\method{add.timepoint}{RuntimeC}(object, name)
+\method{add.timepoint}{RuntimeC}(object, name, scripttime)
 }
 \arguments{
 \item{object}{RuntimeC-class object}
 
 \item{name}{Name of time point}
+
+\item{scripttime}{Time for one script, given by "proc.time() - proc.time()"}
 }
 \description{
 Adds a named timepoint to object
@@ -20,12 +22,12 @@ Adds a named timepoint to object
 \examples{
 library(basicscriptsGG)
 rt_object <- RuntimeC()
-rt_object <- add.timepoint(rt_object, "startpoint")			# add new timepoint NOW
-rt_object <- add.timepoint(rt_object, "fun1")			# add new timepoint NOW
-Sys.sleep(1) # placeholder for ultra cool function/script
-rt_object <- add.timepoint(rt_object, "fun2")			# add new timepoint NOW
-Sys.sleep(0.1)
-rt_object <- add.timepoint(rt_object, "fun3")			# add new timepoint NOW
-Sys.sleep(.2)
+rt_object <- add.timepoint(rt_object, "useless", proc.time()-proc.time())	# add new timepoint (with zero time)
+t1 <- proc.time()
+Sys.sleep(1)		# someFunction
+t2 <- proc.time()
+rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
+rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
+rt_object <- add.timepoint(rt_object, "someFunction", t2-t1)	# add new timepoint (with zero time)
 
 }
