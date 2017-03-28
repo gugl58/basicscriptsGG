@@ -141,7 +141,12 @@ write.default <- base::write
 #' @S3method write RuntimeC
 write.RuntimeC <- function(obj, file)
 {
+	width.save <- options()$width
+	options(width=250)
+
 	sink(file = file)
 	print(round(obj$mat, digits = 2))
 	sink()
+
+	options(width = width.save)
 }
