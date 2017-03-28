@@ -21,7 +21,5 @@ I also tested this and it seems to work.
 \examples{
 library(basicscriptsGG)
 A_RUNTIME <- RuntimeC()		# initialize runtime-array
-A_RUNTIME <- add.timepoint(A_RUNTIME, name = "Start")
-
 # source.addtime("ANY.Scriptpath", A_RUNTIME)
 }

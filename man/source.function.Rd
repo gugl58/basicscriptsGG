@@ -4,12 +4,14 @@
 \alias{source.function}
 \title{Source a script function.name from function.dir}
 \usage{
-source.function(function.name, function.dir)
+source.function(function.name, function.dir, silent = FALSE)
 }
 \arguments{
 \item{function.name}{How is the script (without .R) called}
 
 \item{function.dir}{Where is the script located}
+
+\item{silent}{If true, no messages are printed}
 }
 \value{
 function.name is in workspace
