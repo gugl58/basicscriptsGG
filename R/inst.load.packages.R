@@ -17,31 +17,32 @@
 #' # if bioconductor package should be installed, inst.bioclite MUST be =TRUE
 #' inst.load.packages("NanoStringQCPro", inst.bioclite=TRUE)
 inst.load.packages <- function(package, silent=FALSE, inst.bioclite=FALSE){
-
-	# Try to install
-	if((package %in% installed.packages()[,"Package"]))
-	{
-		if(!silent)	cat("***", package, " already installed\n")
-	}else{
-		if(inst.bioclite == TRUE)
+	if(!package %in% .packages()){
+		# Try to install
+		if((package %in% installed.packages()[,"Package"]))
 		{
-			source("http://bioconductor.org/biocLite.R")
-			biocLite(package)
+			if(!silent)	message(paste("***", package, "already installed"))
 		}else{
-			#repos needed for non-interactive mode.
-			install.packages(package, repos="http://cran.rstudio.com/")
+			if(inst.bioclite == TRUE)
+			{
+				source("http://bioconductor.org/biocLite.R")
+				biocLite(package)
+			}else{
+				#repos needed for non-interactive mode.
+				install.packages(package, repos="http://cran.rstudio.com/")
+			}
 		}
-	}
 
 
-	# Now installing should be finished, load the library
-	if((package %in% installed.packages()[,"Package"]))
-	{
-		library(package, character.only = TRUE)
-		if(!silent)	cat("***", package, as.character(packageVersion(package)),
-						" was loaded in the environment\n")
-	}else{
-		if(!silent)	cat("***", package, as.character(packageVersion(package)),
-						" was not installed properly\n")
+		# Now installing should be finished, load the library
+		if((package %in% installed.packages()[,"Package"]))
+		{
+			library(package, character.only = TRUE)
+			if(!silent)	message(paste("***", package, as.character(packageVersion(package)),
+									  "was loaded in the environment"))
+		}else{
+			if(!silent)	message(paste("***", package, as.character(packageVersion(package)),
+									  "was not installed properly"))
+		}
 	}
 }
