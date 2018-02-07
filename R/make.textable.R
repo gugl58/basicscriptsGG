@@ -44,10 +44,13 @@ make.textable <- function(array0
 		cat("%% \\usepackage{siunitx} %Paket für Einheiten mitsamt der deutschen Anpassungen\n")
 	}
 
+	cat("%\\usepackage{xcolor}\n")
+	cat("%\\usepackage{colortbl} % http://ctan.org/pkg/colortbl\n")
+
+	cat("%\\newcommand{\\rowcolGray}{\\rowcolor{gray!10}} %")
+	cat("%\\newcommand{\\rowcolLessGray}{\\rowcolor{gray!5}} %")
 	if(any(colored.row)){
 		cat("%\\usepackage{booktabs}\n")
-		cat("%\\usepackage{xcolor}\n")
-		cat("%\\usepackage{colortbl} % http://ctan.org/pkg/colortbl\n")
 		cat("%\\newcommand{\\rowcol}{\\rowcolor{",rowcol,"}} %\n\n", sep = "")
 	}
 	cat("\\begin{table}\n")
