@@ -86,7 +86,7 @@ summarizeRT.RuntimeC <- function(object, forceFinal=FALSE) {
 	{
 		return(object)
 	}
-	final.rowname <- "Total time - Sum: min"
+	final.rowname <- "Total time - Sum: hours"
 	if(rownames(object$mat)[dim(object$mat)[1]] == final.rowname && !forceFinal)
 	{
 		print("Object already finished")
@@ -97,7 +97,11 @@ summarizeRT.RuntimeC <- function(object, forceFinal=FALSE) {
 	object$mat <- rbind(object$mat, total.sum)
 	rownames(object$mat)[dim(object$mat)[1]] <- "Total time - Sum: sec"
 	object$mat <- rbind(object$mat, total.sum/60)
+	rownames(object$mat)[dim(object$mat)[1]] <- "Total time - Sum: min"
+	object$mat <- rbind(object$mat, (total.sum/60)/60)
 	rownames(object$mat)[dim(object$mat)[1]] <- final.rowname
+
+
 	return(object)
 }
 
