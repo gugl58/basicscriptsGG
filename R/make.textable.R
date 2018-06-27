@@ -47,13 +47,13 @@ make.textable <- function(array0
 	cat("%\\usepackage{xcolor}\n")
 	cat("%\\usepackage{colortbl} % http://ctan.org/pkg/colortbl\n")
 
-	cat("%\\newcommand{\\rowcolGray}{\\rowcolor{gray!10}} %")
-	cat("%\\newcommand{\\rowcolLessGray}{\\rowcolor{gray!5}} %")
+	cat("%\\newcommand{\\rowcolGray}{\\rowcolor{gray!10}} %\n")
+	cat("%\\newcommand{\\rowcolLessGray}{\\rowcolor{gray!5}} %\n")
 	if(any(colored.row)){
 		cat("%\\usepackage{booktabs}\n")
-		cat("%\\newcommand{\\rowcol}{\\rowcolor{",rowcol,"}} %\n\n", sep = "")
+		cat("%\\newcommand{\\rowcol}{\\rowcolor{",rowcol,"}} %\n", sep = "")
 	}
-	cat("\\begin{table}\n")
+	cat("\n\n\\begin{table}\n")
 	cat("\\sisetup{round-mode=places\n,round-precision=3\n,scientific-notation=fixed\n,fixed-exponent=0\n}\n")
 	cat("\\centering\n")
 	if(is.na(value.formatstring)){
