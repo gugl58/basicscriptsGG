@@ -10,8 +10,8 @@
 #' @examples
 source.function <- function(function.name, function.dir, silent=FALSE){
 	if(!silent)
-		catt("Sourcing ", function.name, ".R")
+		catt("Sourcing ", function.name, ".R  ... ")
 	source(file.path(function.dir, paste0(function.name, ".R")))
 	if(!silent)
-		catt("Sourced. ", function.name, "() is now in workspace.\n")
+		catt("Sourced.   ", function.name, "() is now in workspace.\n")
 }
